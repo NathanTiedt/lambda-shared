@@ -1,0 +1,19 @@
+{
+  "name": "lambda-shared",
+  "version": "0.0.1",
+  "description": "a set of shared files for typescript lambdas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NathanTiedt/lambda-shared.git"
+  },
+  "author": "ntiedt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NathanTiedt/lambda-shared/issues"
+  },
+  "homepage": "https://github.com/NathanTiedt/lambda-shared#readme"
+}
