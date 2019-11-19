@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/NathanTiedt/lambda-shared/issues"
   },
-  "homepage": "https://github.com/NathanTiedt/lambda-shared#readme"
+  "homepage": "https://github.com/NathanTiedt/lambda-shared#readme",
+  "dependencies": {
+    "loglevel": "^1.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.9"
+  }
 }
