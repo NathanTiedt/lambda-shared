@@ -1,12 +1,13 @@
 
 import { Context } from 'aws-lambda';
-import * as log from 'loglevel';
-log.setLevel(process.env.LOG_LEVEL as any);
+import { Logger } from '../logger/logger';
 
 export default abstract class BaseController {
+
+  log: Logger;
   
-  constructor () {
-    log.trace(`Starting Controller`);
+  constructor (className: string) {
+    this.log = new Logger(className);
   }
 
   public abstract handleEvent(event: any, context: Context): any;
