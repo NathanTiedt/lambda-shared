@@ -2,7 +2,7 @@
 import { Client } from 'pg';
 import { Logger } from '../logger/logger';
 
-export default class BaseDao {
+export class BaseDao {
 
   client: Client;
   connected: boolean = false;

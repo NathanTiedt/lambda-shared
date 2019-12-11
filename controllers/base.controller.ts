@@ -2,7 +2,7 @@
 import { Context } from 'aws-lambda';
 import { Logger } from '../logger/logger';
 
-export default abstract class BaseController {
+export abstract class BaseController {
 
   log: Logger;
   
