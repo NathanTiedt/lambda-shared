@@ -2,6 +2,13 @@
 import { Client } from 'pg';
 import { Logger } from '../logger/logger';
 
+/**
+ * base class for daos
+ * provides helper functions for transactions and queries
+ * requires environment variables for the datbase config
+ * following env variables: PGUSER, PGHOST, PGPASSWORD, PGDATABASE, PGPORT
+ * @class
+ */
 export class BaseDao {
 
   client: Client;
@@ -10,7 +17,7 @@ export class BaseDao {
   transactionStarted: boolean = false;
 
   /** @constructor **/
-  construtor(className: string, client?: Client) {
+  constructor(className: string, client?: Client) {
     this.log = new Logger(className);
     this.client = client || new Client();
   }
@@ -19,15 +26,19 @@ export class BaseDao {
    * begins a transaction
    */
   public begin = async () => {
-    if (this.transactionStarted) 
+    if (this.transactionStarted) {
       this.log.warn(`Transaction already started`);
+      return true;
+    }
     try {
       this.log.debug(`Begining Transaction`);
+      this.transactionStarted = true;
       await this.query(`BEGIN`);
       return true;
     } catch (error) {
       this.log.error(`Transaction failed to begin`, error);
-      return false;
+      this.transactionStarted = false;
+      throw error;
     }
   }
 
@@ -35,8 +46,15 @@ export class BaseDao {
    * closes a database connection
    */
   public close = async () => {
-    if (this.transactionStarted) 
-      throw new Error(`Transaction currently open. Commit changes before closing connection`);
+    if (!this.connected) {
+      // TODO: needed? or should we error?
+      this.log.warn(`Connection already closed`);
+      return true;
+    }
+    if (this.transactionStarted) {
+      this.log.warn(`Transaction currently open. Rolling back changes before closing connection`);
+      return await this.rollback();
+    }
     try {
       this.log.debug(`Closing database connection`);
       await this.client.close();
